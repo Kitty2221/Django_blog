@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} Blogs {% endblock %}
+{% block homeactive %} active {% endblock homeactive %}
+{% block css %}
+{% endblock %}
+{% block body %}
+
+
+
+    <div class="container">
+        <div id="logo" class="jumbotron">
+            <h1>Post Details</h1>
+            <p>Title: <b> {{ title }}</b></p>
+            <p>Post: <b>{{ body }}</b></p>
+            <p>Author: <b>{{ author }}</b></p>
+
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script></script>
+{% endblock %}

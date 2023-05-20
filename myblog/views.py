@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -59,7 +60,6 @@ def blogs(request):
 
 def post_by_id(request, id):
     post = BlogPost.objects.get(id=id)
-    print(post)
     context = {'title': post.title, 'body': post.body, 'author': post.author,
                'image': post.image}
 
@@ -89,11 +89,10 @@ class UpdatePostView(UpdateView):
 
 
 def delete_post(request, id):
-    posts = BlogPost.objects.get(id=id)
-    if request.method == "POST":
-        posts.delete()
+    item = get_object_or_404(BlogPost, id=id)
+    if item:
+        item.delete()
         return redirect('/')
-    return render(request, 'posts/delete_post.html', {'posts': posts})
 
 
 def search(request):

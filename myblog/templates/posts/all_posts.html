@@ -24,7 +24,9 @@
                                     <a href="blog/{{ post.id }}" class="btn btn-primary">Read More
                                         {% if user.id == post.author.id %}
                                             <small><a href="delete_blog_post/{{ post.id }}/"
-                                                      class="btn btn-danger mx-4">Delete
+                                                      id='delete' class="btn btn-danger mx-4"
+                                                      data-confirm="Are you sure to delete this item?"
+                                            >Delete
                                                 Blog</a></small>
                                             <hr>
                                             <center>
@@ -45,5 +47,19 @@
     </div>
 {% endblock %}
 {% block js %}
-    <script></script>
+    <script type="text/javascript">
+
+        $('#delete').on("click", function (e) {
+            e.preventDefault();
+
+            var choice = confirm($(this).attr('data-confirm'));
+
+
+            if (choice) {
+                window.location.href = $(this).attr('href');
+            }
+        });
+
+
+    </script>
 {% endblock %}

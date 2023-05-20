@@ -20,6 +20,40 @@
         </div>
     </form>
 {% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").on("click", "#delete", function (e) {
+                e.preventDefault();
+                if (!confirm("Do you really want to do this?")) {
+                    return false;
+                }
+
+
+                {#e.preventDefault();#}
+                var id = $(this).data("post.id");
+
+
+                $.ajax({
+                    url: "delete_blog_post/" + id,
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        "X-CSRFTOKEN": "{{ csrf_token }}"
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+                        $(".blogpost" + id).remove();
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+{% endblock %}
 
 
 

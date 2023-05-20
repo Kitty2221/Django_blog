@@ -1,25 +1,66 @@
 {% extends 'base.html' %}
 
+
 {% block title %} Profile {% endblock %}
 {% block add_blogs_active %} active {% endblock add_blogs_active %}
+
 
 {% block css %}
 {% endblock %}
 {% block body %}
-<form action="/add_blogs/" enctype="multipart/form-data" method="POST"> {% csrf_token %}
-<div class="container mt-4">
-{{ form.as_p }}
-<button class="btn btn-primary">Add Blog</button>
-</div>
-</form>
+    <form id="post-form" action="/add_blogs/" enctype="multipart/form-data" method="POST">{% csrf_token %}
+        {% csrf_token %}
+        <div class="container mt-4">
+            {{ form.as_p }}
+            <button id="btnGetResponse" class="btn btn-primary" type="submit">Add Blog</button>
+        </div>
+
+
+    </form>
 {% endblock %}
 {% block js %}
-<script>
-    {% if alert %}
-    alert('Your Blog is added successfully.');
-    document.location = '/';
-    {% endif %}
-</script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"
+            integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    </script>
+    <script type="text/javascript">
+        $(document).on('#btnGetResponse', '#post-form', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "/add_blogs/ ",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: {
+                    title: $('#title').val(),
+                    body: $('#body').val(),
+                    image: $('#image').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function (response) {
+                    alert("You will now be redirected.");
+                    window.location.href = "/";
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+
+
+            });
+
+
+        });
+
+
+    </script>
+    <script>
+        {% if alert %}
+            alert('Your Blog is added successfully.');
+            document.location = '/add_blogs/';
+        {% endif %}
+    </script>
+
 {% endblock %}
+
 
 
